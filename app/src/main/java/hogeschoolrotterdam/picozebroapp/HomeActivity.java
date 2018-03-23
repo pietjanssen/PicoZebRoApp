@@ -84,9 +84,6 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Log.d("TEST", "DOWN clicked");
-                if (Build.VERSION.SDK_INT >= 21) {
-                    buttonDown.setText("DOWN CLICKED");
-                }
             }
         });
     }
@@ -96,9 +93,6 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Log.d("TEST", "LEFT clicked");
-                if (Build.VERSION.SDK_INT >= 21) {
-                    buttonLeft.setText("LEFT CLICKED");
-                }
             }
         });
     }
@@ -108,9 +102,6 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Log.d("TEST", "RIGHT clicked");
-                if (Build.VERSION.SDK_INT >= 21) {
-                    buttonRight.setText("RIGHT CLICKED");
-                }
             }
         });
     }
@@ -120,9 +111,6 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Log.d("TEST", "STOP clicked");
-                if (Build.VERSION.SDK_INT >= 21) {
-                    buttonStop.setText("STOP CLICKED");
-                }
             }
         });
     }
@@ -132,9 +120,6 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Log.d("TEST", "CHARGE clicked");
-                if (Build.VERSION.SDK_INT >= 21) {
-                    buttonCharge.setText("CHARGE CLICKED");
-                }
             }
         });
     }

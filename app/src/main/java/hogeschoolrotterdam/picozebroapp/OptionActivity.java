@@ -27,10 +27,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by Boris van Norren on 21-2-2018.
- */
-
 public class OptionActivity extends BaseActivity {
 
     private Spinner spinner;
@@ -107,39 +103,28 @@ public class OptionActivity extends BaseActivity {
         }
     }
 
-    protected void scanLeDevice(final boolean enable) {
+    private void scanLeDevice(final boolean enable) {
         if (enable) {
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if (Build.VERSION.SDK_INT < 21) {
-                        mBluetoothAdapter.stopLeScan(mLeScanCallback);
-                    } else {
-                        mLEScanner.stopScan(mScanCallback);
-                        Log.d("SCAN", "Stopped scan");
-                    }
+                    mLEScanner.stopScan(mScanCallback);
+                    Log.d("SCAN", "Stopped scan");
                 }
             }, SCAN_PERIOD);
-            if (Build.VERSION.SDK_INT < 21) {
-                mBluetoothAdapter.startLeScan(mLeScanCallback);
-            } else {
-                mLEScanner.startScan(filters, settings, mScanCallback);
-                Log.d("SCAN", "Started Scan");
-            }
+
+            mLEScanner.startScan(filters, settings, mScanCallback);
+            Log.d("SCAN", "Started Scan");
         } else {
-            if (Build.VERSION.SDK_INT < 21) {
-                mBluetoothAdapter.stopLeScan(mLeScanCallback);
-            } else {
-                mLEScanner.stopScan(mScanCallback);
-                Log.i("SCAN", "Stopped scan");
-            }
+            mLEScanner.stopScan(mScanCallback);
+            Log.i("SCAN", "Stopped scan");
         }
     }
 
     private void checkDevicesinSpinner(BluetoothDevice device) {
         boolean present = false;
         String deviceAddress = device.getAddress();
-        if (deviceAddress.equals("00:07:80:E7:B5:7D")) {
+        //if (deviceAddress.equals("00:07:80:E7:B5:7D")) {
             for (String bd : btString) {
                 Log.d("BD", bd);
                 Log.d("DEVICE", deviceAddress);
@@ -148,16 +133,16 @@ public class OptionActivity extends BaseActivity {
                     Log.d("DUP", "Device already in spinner");
                 }
             }
-            if (present == false) {
+            if (!present) {
                 btDevices.add(device);
                 btString.add(deviceAddress);
                 Log.d("ADD", deviceAddress);
             }
-        }
+        //}
         dataAdapter = new ArrayAdapter<BluetoothDevice>(this, android.R.layout.simple_spinner_item, btDevices);
     }
 
-    protected ScanCallback mScanCallback = new ScanCallback() {
+    private ScanCallback mScanCallback = new ScanCallback() {
         @Override
         public void onScanResult(int callbackType, ScanResult result) {
             Log.i("callbackType", String.valueOf(callbackType));
@@ -181,7 +166,7 @@ public class OptionActivity extends BaseActivity {
         }
     };
 
-    protected BluetoothAdapter.LeScanCallback mLeScanCallback =
+    private BluetoothAdapter.LeScanCallback mLeScanCallback =
             new BluetoothAdapter.LeScanCallback() {
                 @Override
                 public void onLeScan(final BluetoothDevice device, int rssi,
@@ -197,19 +182,19 @@ public class OptionActivity extends BaseActivity {
                 }
             };
 
-    public void connectToDevice(BluetoothDevice device) {
+    private void connectToDevice(BluetoothDevice device) {
         if (mGatt == null) {
             mGatt = device.connectGatt(this, false, gattCallback);
-            button_connect.setText("Disconnect");
+            button_connect.setText(R.string.button_disconnect);
         } else {
             Toast.makeText(this, "Already connecting to a device", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void disconnectFromDevice(BluetoothDevice device){
+    private void disconnectFromDevice(BluetoothDevice device){
         if (mGatt != null){
             mGatt.disconnect();
-            button_connect.setText("Connect");
+            button_connect.setText(R.string.button_connect);
         }
         else
             Toast.makeText(this, "Not connected to a device yet", Toast.LENGTH_SHORT).show();

@@ -1,9 +1,5 @@
 package hogeschoolrotterdam.picozebroapp;
 
-/**
- * Created by Boris van Norren on 21-2-2018.
- */
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -57,7 +53,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
 
     protected static final int REQUEST_ENABLE_BT = 1;
     protected static final long SCAN_PERIOD = 5000;
-    private Context that = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +133,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    protected final BluetoothGattCallback gattCallback = new BluetoothGattCallback() {
+    final BluetoothGattCallback gattCallback = new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             Log.i("onConnectionStateChange", "Status: " + status);
@@ -180,7 +175,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
         selectBottomNavigationBarItem(actionId);
     }
 
-    void selectBottomNavigationBarItem(int itemId) {
+    private void selectBottomNavigationBarItem(int itemId) {
         Menu menu = navigationView.getMenu();
         for (int i = 0, size = menu.size(); i < size; i++) {
             MenuItem item = menu.getItem(i);

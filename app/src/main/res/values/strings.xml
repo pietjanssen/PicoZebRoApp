@@ -1,5 +1,9 @@
 <resources>
-    <string name="app_name">PicoZebRoApp</string>
+    <string name="app_name">PicoZebRo</string>
+    <string name="option_name">Options</string>
+    <string name="camera_name">Camera</string>
+    <string name="charge_name">Charge</string>
+    <string name="empty_space">Nothing to see here yet</string>
     <string name="button_up">UP</string>
     <string name="button_down">DOWN</string>
     <string name="button_left">LEFT</string>
@@ -8,9 +12,11 @@
     <string name="button_stop">STOP</string>
     <string name="button_manual">CHARGE MANUALLY</string>
     <string name="menu_home">Home</string>
+    <string name="menu_option">Options</string>
     <string name="menu_camera">Camera</string>
     <string name="menu_charge">Charge</string>
     <string name="button_connect">Connect</string>
     <string name="button_scan">Scan</string>
+    <string name="button_disconnect">disconnect</string>
 
 </resources>

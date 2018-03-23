@@ -16,16 +16,15 @@
         android:layout_below="@+id/button_up"
         android:layout_toEndOf="@+id/button_up"
         android:layout_toRightOf="@+id/button_up"
-        android:onClick="buttonRightOnClick"
         android:text="@string/button_right" />
 
     <Button
         android:id="@+id/button_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:onClick="buttonUpOnClick"
+        android:layout_marginTop="39dp"
         android:text="@string/button_up" />
 
     <include
@@ -42,7 +41,6 @@
         android:layout_alignLeft="@+id/button_up"
         android:layout_alignStart="@+id/button_up"
         android:layout_below="@+id/button_right"
-        android:onClick="buttonDownOnClick"
         android:text="@string/button_down" />
 
     <Button
@@ -52,7 +50,6 @@
         android:layout_below="@+id/button_up"
         android:layout_toLeftOf="@+id/button_down"
         android:layout_toStartOf="@+id/button_down"
-        android:onClick="buttonLeftOnClick"
         android:text="@string/button_left" />
 
     <Button
@@ -62,7 +59,6 @@
         android:layout_below="@+id/button_up"
         android:layout_toEndOf="@+id/button_left"
         android:layout_toRightOf="@+id/button_left"
-        android:onClick="buttonStopOnClick"
         android:text="@string/button_stop" />
 
     <Button
@@ -74,7 +70,6 @@
         android:layout_alignRight="@+id/button_right"
         android:layout_alignStart="@+id/button_left"
         android:layout_below="@+id/button_down"
-        android:onClick="buttonChargeOnClick"
         android:text="@string/menu_charge" />
 
 </RelativeLayout>

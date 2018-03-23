@@ -1,9 +1,5 @@
 package hogeschoolrotterdam.picozebroapp;
 
-/**
- * Created by Boris_000 on 21-2-2018.
- */
-
 public class ChargeActivity extends BaseActivity{
     @Override
     int getContentViewId() {

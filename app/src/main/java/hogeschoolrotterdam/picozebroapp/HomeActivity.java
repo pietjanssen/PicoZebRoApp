@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.Set;
@@ -56,20 +57,19 @@ public class HomeActivity extends BaseActivity {
         addListenerOnButtonCharge();
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+    }
+
     private void addListenerOnButtonUp() {
         buttonUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("TEST", "UP clicked");
                 if (mBluetoothAdapter.isEnabled()) {
-                    if (mGatt != null) {
-                        try {
-                            String message = "1";
-                            byte[] msgBuffer = message.getBytes();
-                            outputStream.write(msgBuffer);
-                        } catch (IOException e) {
-                            Log.e("IOException", e.getMessage());
-                        }
+                    if (g.getmGatt() != null) {
+                        mConnectedThread.write("1");
                     } else
                         Log.e("MOV", "Device is not connected");
                 }

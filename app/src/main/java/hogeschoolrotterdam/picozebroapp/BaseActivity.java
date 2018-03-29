@@ -10,6 +10,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
+import android.bluetooth.BluetoothSocket;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanFilter;
@@ -21,6 +22,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.ParcelUuid;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -32,27 +34,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public abstract class BaseActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     protected BottomNavigationView navigationView;
     protected BluetoothAdapter mBluetoothAdapter;
-    protected boolean mScanning;
     protected Handler mHandler;
     protected BluetoothLeScanner mLEScanner;
     protected ScanSettings settings;
     protected List<ScanFilter> filters;
-    protected BluetoothGatt mGatt;
-    protected OutputStream outputStream;
-    protected InputStream inputStream;
-
-
+    protected Handler bluetoothIn;
+    private final int handlerState = 0;
+    protected BluetoothSocket btSocket;
+    protected ConnectedThread mConnectedThread;
+    public Globals g;
     protected static final int REQUEST_ENABLE_BT = 1;
     protected static final long SCAN_PERIOD = 5000;
+    // SPP UUID service - this should work for most devices
+    private static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    private StringBuilder recDataString = new StringBuilder();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +75,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
         if(bluetoothManager != null)
             mBluetoothAdapter = bluetoothManager.getAdapter();
         else
-            Log.e("ERR", "Bluetoothmanager == NULL");
+            Log.e("ERROR", "Bluetoothmanager == NULL");
 
         // Ensures Bluetooth is available on the device and it is enabled. If not,
         // displays a dialog requesting user permission to enable Bluetooth.
@@ -84,6 +90,22 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
             Toast.makeText(this, "BLE NOT SUPPORTED", Toast.LENGTH_SHORT).show();
             finish();
         }
+
+        bluetoothIn = new Handler() {
+            public void handleMessage(android.os.Message msg) {
+                if (msg.what == handlerState) {                                         //if message is what we want
+                    String readMessage = (String) msg.obj;                              // msg.arg1 = bytes from connect thread
+                    recDataString.append(readMessage);                                  //keep appending to string until ~
+                    int endOfLineIndex = recDataString.indexOf("~");                    // determine the end-of-line
+                    if (endOfLineIndex > 0) {                                           // make sure there data before ~
+                        g.setDataInPrint(recDataString.substring(0, endOfLineIndex));   // extract string
+                        recDataString.delete(0, recDataString.length());                //clear all string data
+                    }
+                }
+            }
+        };
+
+        g = Globals.getInstance();
     }
 
     @Override
@@ -106,20 +128,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
     public void onPause() {
         super.onPause();
         overridePendingTransition(0, 0);
-//        if (mBluetoothAdapter != null && mBluetoothAdapter.isEnabled()) {
-//            scanLeDevice(false);
-//        }
     }
-
-//    @Override
-//    protected void onDestroy() {
-//        if (mGatt == null) {
-//            return;
-//        }
-//        mGatt.close();
-//        mGatt = null;
-//        super.onDestroy();
-//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -133,24 +142,59 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    final BluetoothGattCallback gattCallback = new BluetoothGattCallback() {
-        @Override
-        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-            Log.i("onConnectionStateChange", "Status: " + status);
-            switch (newState) {
-                case BluetoothProfile.STATE_CONNECTED:
-                    Log.i("gattCallback", "STATE_CONNECTED");
-                    gatt.discoverServices();
-                    break;
-                case BluetoothProfile.STATE_DISCONNECTED:
-                    Log.e("gattCallback", "STATE_DISCONNECTED");
-                    mGatt = null;
-                    break;
-                default:
-                    Log.e("gattCallback", "STATE_OTHER");
+    //create new class for connect thread
+    protected class ConnectedThread extends Thread {
+        private final InputStream mmInStream;
+        private final OutputStream mmOutStream;
+
+        //creation of the connect thread
+        public ConnectedThread(BluetoothSocket socket) {
+            InputStream tmpIn = null;
+            OutputStream tmpOut = null;
+
+            try {
+                //Create I/O streams for connection
+                tmpIn = socket.getInputStream();
+                tmpOut = socket.getOutputStream();
+            } catch (IOException e) {
+                Log.e("ERROR", "Error when creating I/O streams" + e);
+            }
+
+            mmInStream = tmpIn;
+            mmOutStream = tmpOut;
+        }
+
+        public void run() {
+            byte[] buffer = new byte[256];
+            int bytes;
+
+            // Keep looping to listen for received messages
+            while (true) {
+                try {
+                    bytes = mmInStream.read(buffer);            //read bytes from input buffer
+                    String readMessage = new String(buffer, 0, bytes);
+                    // Send the obtained bytes to the UI Activity via handler
+                    bluetoothIn.obtainMessage(handlerState, bytes, -1, readMessage).sendToTarget();
+                } catch (IOException e) {
+                    Log.e("ERROR", "Error when obtaining message from stream" + e);
+                }
             }
         }
-    };
+        //write method
+        public void write(String input) {
+            byte[] msgBuffer = input.getBytes();           //converts entered String into bytes
+            try {
+                mmOutStream.write(msgBuffer);                //write bytes over BT connection via outstream
+            } catch (IOException e) {
+                //if you cannot write, close the application
+                Toast.makeText(getBaseContext(), "Connection Failure", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    protected BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException{
+        return device.createRfcommSocketToServiceRecord(BTMODULEUUID);
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {

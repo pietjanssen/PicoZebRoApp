@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ValueActivity"
+    >
+
+    <include
+        android:id="@+id/navigation"
+        layout="@layout/element_bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+    <TextView
+        android:id="@+id/Textview_0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="Status" />
+
+    <TextView
+        android:id="@+id/textview_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="40dp"
+        android:layout_toEndOf="@+id/Textview_0"
+        android:text="not connected" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/Textview_0"
+        android:text="LED1" />
+
+    <ToggleButton
+        android:id="@+id/button_led1_r"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView6"
+        android:checked="false"
+        android:textOff="RED"
+        android:textOn="RED"
+        android:theme="@style/ToggleButtonPico_red"/>
+
+    <ToggleButton
+        android:id="@+id/button_led1_g"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView6"
+        android:layout_toEndOf="@+id/button_led1_r"
+        android:textOff="GREEN"
+        android:textOn="GREEN"
+        android:theme="@style/ToggleButtonPico_green" />
+
+    <ToggleButton
+        android:id="@+id/button_led1_b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView6"
+        android:layout_toEndOf="@+id/button_led1_g"
+        android:textOff="BLUE"
+        android:textOn="BLUE"
+        android:theme="@style/ToggleButtonPico_blue" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/button_led1_r"
+        android:text="LED2" />
+
+    <ToggleButton
+        android:id="@+id/button_led2_r"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView7"
+        android:checked="false"
+        android:textOff="RED"
+        android:textOn="RED"
+        android:theme="@style/ToggleButtonPico_red" />
+
+    <ToggleButton
+        android:id="@+id/button_led2_g"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/button_led2_r"
+        android:layout_toEndOf="@+id/button_led2_r"
+        android:textOff="GREEN"
+        android:textOn="GREEN"
+        android:theme="@style/ToggleButtonPico_green" />
+
+    <ToggleButton
+        android:id="@+id/button_led2_b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/button_led2_g"
+        android:layout_toEndOf="@+id/button_led2_g"
+        android:textOff="BLUE"
+        android:textOn="BLUE"
+        android:theme="@style/ToggleButtonPico_blue" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/button_led2_r"
+        android:text="LED3" />
+
+    <ToggleButton
+        android:id="@+id/button_led3_r"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView8"
+        android:layout_toStartOf="@+id/button_led2_g"
+        android:textOff="RED"
+        android:textOn="RED"
+        android:theme="@style/ToggleButtonPico_red" />
+
+    <ToggleButton
+        android:id="@+id/button_led3_g"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView8"
+        android:layout_toEndOf="@+id/button_led3_r"
+        android:textOff="GREEN"
+        android:textOn="GREEN"
+        android:theme="@style/ToggleButtonPico_green" />
+
+    <ToggleButton
+        android:id="@+id/button_led3_b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView8"
+        android:layout_toEndOf="@+id/button_led3_g"
+        android:textOff="BLUE"
+        android:textOn="BLUE"
+        android:theme="@style/ToggleButtonPico_blue" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/button_led3_r"
+        android:text="LED4" />
+
+    <ToggleButton
+        android:id="@+id/button_led4_r"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView9"
+        android:textOff="RED"
+        android:textOn="RED"
+        android:theme="@style/ToggleButtonPico_red" />
+
+    <ToggleButton
+        android:id="@+id/button_led4_g"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/button_led4_r"
+        android:layout_toEndOf="@+id/button_led4_r"
+        android:textOff="GREEN"
+        android:textOn="GREEN"
+        android:theme="@style/ToggleButtonPico_green" />
+
+    <ToggleButton
+        android:id="@+id/button_led4_b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/button_led4_g"
+        android:layout_toEndOf="@+id/button_led4_g"
+        android:textOff="BLUE"
+        android:textOn="BLUE"
+        android:theme="@style/ToggleButtonPico_blue" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/textView9"
+        android:layout_below="@+id/button_led4_r"
+        android:text="LED5" />
+
+    <ToggleButton
+        android:id="@+id/button_led5_r"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView10"
+        android:textOff="RED"
+        android:textOn="RED"
+        android:theme="@style/ToggleButtonPico_red" />
+
+    <ToggleButton
+        android:id="@+id/button_led5_g"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView10"
+        android:layout_toEndOf="@+id/button_led5_r"
+        android:textOff="GREEN"
+        android:textOn="GREEN"
+        android:theme="@style/ToggleButtonPico_green" />
+
+    <ToggleButton
+        android:id="@+id/button_led5_b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView10"
+        android:layout_toEndOf="@+id/button_led5_g"
+        android:textOff="BLUE"
+        android:textOn="BLUE"
+        android:theme="@style/ToggleButtonPico_blue" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/textView10"
+        android:layout_below="@+id/button_led5_r"
+        android:text="LED6" />
+
+    <ToggleButton
+        android:id="@+id/button_led6_r"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView11"
+        android:textOff="RED"
+        android:textOn="RED"
+        android:theme="@style/ToggleButtonPico_red" />
+
+    <ToggleButton
+        android:id="@+id/button_led6_g"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/button_led6_r"
+        android:layout_toEndOf="@+id/button_led6_r"
+        android:textOff="GREEN"
+        android:textOn="GREEN"
+        android:theme="@style/ToggleButtonPico_green" />
+
+    <ToggleButton
+        android:id="@+id/button_led6_b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/button_led6_g"
+        android:layout_toEndOf="@+id/button_led6_g"
+        android:textOff="BLUE"
+        android:textOn="BLUE"
+        android:theme="@style/ToggleButtonPico_blue" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/button_led1_b"
+        android:text="Battery" />
+
+    <TextView
+        android:id="@+id/textview_battery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:text="null" />
+
+</RelativeLayout>

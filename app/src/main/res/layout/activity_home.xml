@@ -13,9 +13,9 @@
         android:id="@+id/button_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/button_up"
-        android:layout_toEndOf="@+id/button_up"
-        android:layout_toRightOf="@+id/button_up"
+        android:layout_alignBaseline="@+id/button_stop"
+        android:layout_alignBottom="@+id/button_stop"
+        android:layout_toEndOf="@+id/button_stop"
         android:text="@string/button_right" />
 
     <Button
@@ -38,9 +38,8 @@
         android:id="@+id/button_down"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button_up"
-        android:layout_alignStart="@+id/button_up"
         android:layout_below="@+id/button_right"
+        android:layout_centerHorizontal="true"
         android:text="@string/button_down" />
 
     <Button
@@ -48,17 +47,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/button_up"
-        android:layout_toLeftOf="@+id/button_down"
-        android:layout_toStartOf="@+id/button_down"
+        android:layout_toStartOf="@+id/button_up"
         android:text="@string/button_left" />
 
     <Button
         android:id="@+id/button_stop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/button_up"
         android:layout_below="@+id/button_up"
-        android:layout_toEndOf="@+id/button_left"
-        android:layout_toRightOf="@+id/button_left"
         android:text="@string/button_stop" />
 
     <Button
@@ -72,37 +69,13 @@
         android:layout_below="@+id/button_down"
         android:text="@string/menu_charge" />
 
-    <TextView
-        android:id="@+id/bluetooth_textview"
+    <Button
+        android:id="@+id/button_notConnected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/button_charge"
-        android:layout_centerVertical="true"
-        android:text="Bluetooth output" />
-
-    <TextView
-        android:id="@+id/bluetooth_output"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/bluetooth_textview"
-        android:layout_marginStart="29dp"
-        android:layout_toEndOf="@+id/bluetooth_textview"
-        android:text="null" />
-
-    <TextView
-        android:id="@+id/textView_action"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:text="Last action" />
-
-    <TextView
-        android:id="@+id/action_output"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/button_charge"
         android:layout_centerHorizontal="true"
-        android:text="Nothing yet" />
+        android:layout_marginTop="43dp"
+        android:text="Click here to connect" />
 
 </RelativeLayout>

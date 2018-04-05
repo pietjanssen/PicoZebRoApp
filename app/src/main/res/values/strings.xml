@@ -4,19 +4,24 @@
     <string name="camera_name">Camera</string>
     <string name="charge_name">Charge</string>
     <string name="empty_space">Nothing to see here yet</string>
-    <string name="button_up">UP</string>
-    <string name="button_down">DOWN</string>
+    <string name="button_up">FORWARD</string>
+    <string name="button_down">BACKWARD</string>
     <string name="button_left">LEFT</string>
     <string name="button_right">RIGHT</string>
-    <string name="button_options">OPTIONS</string>
     <string name="button_stop">STOP</string>
-    <string name="button_manual">CHARGE MANUALLY</string>
     <string name="menu_home">Home</string>
     <string name="menu_option">Options</string>
     <string name="menu_camera">Camera</string>
     <string name="menu_charge">Charge</string>
+    <string name="menu_value">Values</string>
     <string name="button_connect">Connect</string>
+    <string name="button_disconnect">Disconnect</string>
     <string name="button_scan">Scan</string>
-    <string name="button_disconnect">disconnect</string>
+    <string name="status_connected">Connected</string>
+    <string name="status_disconnected">Disconnected</string>
+    <string name="status_connection_failure">Connection failed</string>
+    <string name="status_connecting">Connecting</string>
+    <string name="status_scanning">Scanning</string>
+    <string name="status_scanningstopped">Stopped scan</string>
 
 </resources>

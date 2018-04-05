@@ -33,6 +33,10 @@
         <activity android:name=".OptionActivity"
             android:label="@string/option_name">
         </activity>
+
+        <activity android:name=".ValueActivity"
+            android:label="@string/menu_value">
+        </activity>
     </application>
 
 </manifest>

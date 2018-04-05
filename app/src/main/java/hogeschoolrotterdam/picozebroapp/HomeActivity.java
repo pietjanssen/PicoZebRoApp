@@ -1,19 +1,15 @@
 package hogeschoolrotterdam.picozebroapp;
 
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
-import android.os.Build;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattService;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.ParcelUuid;
 import android.support.design.widget.BottomNavigationView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.TextView;
 
-import java.io.IOException;
-import java.util.Set;
+import java.util.UUID;
 
 public class HomeActivity extends BaseActivity {
 
@@ -23,9 +19,7 @@ public class HomeActivity extends BaseActivity {
     private Button buttonRight;
     private Button buttonStop;
     private Button buttonCharge;
-    private TextView bluetoothOutput;
-    private Thread t;
-    private TextView lastActionOutput;
+    private Button buttonnotConnected;
 
     @Override
     int getContentViewId() {
@@ -51,8 +45,7 @@ public class HomeActivity extends BaseActivity {
         buttonRight = (Button) findViewById(R.id.button_right);
         buttonStop = (Button) findViewById(R.id.button_stop);
         buttonCharge = (Button) findViewById(R.id.button_charge);
-        bluetoothOutput = (TextView) findViewById(R.id.bluetooth_output);
-        lastActionOutput = (TextView) findViewById(R.id.action_output);
+        buttonnotConnected = (Button) findViewById(R.id.button_notConnected);
 
         addListenerOnButtonUp();
         addListenerOnButtonDown();
@@ -60,45 +53,16 @@ public class HomeActivity extends BaseActivity {
         addListenerOnButtonRight();
         addListenerOnButtonStop();
         addListenerOnButtonCharge();
-
-        t = new Thread() {
-
-            @Override
-            public void run() {
-                try {
-                    while (!isInterrupted()) {
-                        Thread.sleep(1000);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                updateTextView();
-                            }
-                        });
-                    }
-                } catch (InterruptedException e) {
-                }
-            }
-        };
-
-        t.start();
-    }
-
-    private void updateTextView(){
-        if(g.getDataInPrint() != null) {
-            bluetoothOutput.setText(g.getDataInPrint());
-        }else{
-            bluetoothOutput.setText("Nothing yet.");
-        }
-        if(g.getTestString() != null){
-            lastActionOutput.setText(g.getTestString());
-        }else{
-            lastActionOutput.setText("Nothing yet");
-        }
+        addListenerOnButtonNotConnected();
     }
 
     @Override
     public void onResume(){
         super.onResume();
+        if(g.isConnected()){
+            buttonnotConnected.setVisibility(View.INVISIBLE);
+            buttonnotConnected.setEnabled(false);
+        }
     }
 
     @Override
@@ -111,15 +75,7 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Log.d("TEST", "UP clicked");
-                g.setTestString("UP");
-                if (mBluetoothAdapter.isEnabled()) {
-                    if (g.getmGatt() != null & !g.getmGatt().getConnectedDevices().isEmpty()) {
-                        mConnectedThread.write("1");
-                    } else
-                        Log.e("MOV", "Device is not connected");
-                }
-                else
-                    Log.e("MOV", "Bluetooth is not enabled");
+                writeCharacteristic(SERVICEUUID_M, CHARACTERUUID_M_1, 1);
             }
         });
     }
@@ -129,7 +85,7 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Log.d("TEST", "DOWN clicked");
-                g.setTestString("DOWN");
+                writeCharacteristic(SERVICEUUID_M, CHARACTERUUID_M_1, 2);
             }
         });
     }
@@ -139,7 +95,7 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Log.d("TEST", "LEFT clicked");
-                g.setTestString("LEFT");
+                writeCharacteristic(SERVICEUUID_M, CHARACTERUUID_M_1, 3);
             }
         });
     }
@@ -149,7 +105,7 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Log.d("TEST", "RIGHT clicked");
-                g.setTestString("RIGHT");
+                writeCharacteristic(SERVICEUUID_M, CHARACTERUUID_M_1, 4);
             }
         });
     }
@@ -159,7 +115,7 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Log.d("TEST", "STOP clicked");
-                g.setTestString("STOP");
+                writeCharacteristic(SERVICEUUID_M, CHARACTERUUID_M_1, 0);
             }
         });
     }
@@ -169,9 +125,40 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Log.d("TEST", "CHARGE clicked");
-                g.setTestString("CHARGE");
+                writeCharacteristic(SERVICEUUID_M, CHARACTERUUID_M_1, 5);
             }
         });
     }
 
+    private void addListenerOnButtonNotConnected() {
+        buttonnotConnected.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("TEST", "NOTCONNECTED clicked");
+                startActivity(new Intent(view.getContext(), OptionActivity.class));
+            }
+        });
+    }
+
+    private void writeCharacteristic(UUID service , UUID characteristic, int number){
+        if (g.getmGatt() == null){
+            Log.e("HOME error", "No bluetooth connection");
+            return;
+        }
+        BluetoothGattService serv = g.getmGatt().getService(service);
+        if(service == null){
+            Log.e("HOME error", "No service found with given UUID");
+            return;
+        }
+        BluetoothGattCharacteristic charac = serv.getCharacteristic(characteristic);
+        if(charac == null){
+            Log.e("HOME error", "No characteristic found with given service");
+            return;
+        }
+
+        byte[] value = new byte[1];
+        value[0] = (byte) (number & 0xFF);
+        charac.setValue(value);
+        g.getmGatt().writeCharacteristic(charac);
+    }
 }

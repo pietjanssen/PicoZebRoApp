@@ -10,11 +10,9 @@ public class Globals {
 
     private BluetoothGatt mGatt;
     private BluetoothDevice btDevice;
-    private ArrayAdapter<BluetoothDevice> dataAdapter;
-    private String dataInPrint;
+    private ArrayAdapter<String> dataAdapter;
     private boolean Connecting;
     private boolean Connected;
-    private String testString;                              // This string is used in other Activities to check if certain valuables are correctly read from Globals
 
     public boolean isConnecting() {
         return Connecting;
@@ -32,27 +30,11 @@ public class Globals {
         Connected = connected;
     }
 
-    public String getTestString() {
-        return testString;
-    }
-
-    public void setTestString(String testString) {
-        this.testString = testString;
-    }
-
-    public String getDataInPrint() {
-        return dataInPrint;
-    }
-
-    public void setDataInPrint(String dataInPrint) {
-        this.dataInPrint = dataInPrint;
-    }
-
-    public ArrayAdapter<BluetoothDevice> getDataAdapter() {
+    public ArrayAdapter<String> getDataAdapter() {
         return dataAdapter;
     }
 
-    public void setDataAdapter(ArrayAdapter<BluetoothDevice> dataAdapter) {
+    public void setDataAdapter(ArrayAdapter<String> dataAdapter) {
         this.dataAdapter = dataAdapter;
     }
 

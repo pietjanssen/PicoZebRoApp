@@ -6,6 +6,19 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+    </style>
+
+    <style name="ToggleButtonPico_blue" parent="@android:style/Widget.Material.Light.Button.Toggle">
+        <item name="colorAccent">#0288d1</item>
+    </style>
+
+    <style name="ToggleButtonPico_green" parent="@android:style/Widget.Material.Light.Button.Toggle">
+        <item name="colorAccent">#00ff00</item>
+    </style>
+
+    <style name="ToggleButtonPico_red" parent="@android:style/Widget.Material.Light.Button.Toggle">
+        <item name="colorAccent">#ff0000</item>
     </style>
 
 </resources>

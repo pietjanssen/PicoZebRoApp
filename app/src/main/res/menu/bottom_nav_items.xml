@@ -16,8 +16,13 @@
         android:icon="@drawable/ic_charge_black"/>
 
     <item
+        android:id="@+id/menu_value"
+        android:title="Values"
+        android:icon="@drawable/ic_value_black"/>
+
+    <item
         android:id="@+id/menu_option"
         android:title="@string/menu_option"
-        android:icon="@drawable/ic_camera_black"/>
+        android:icon="@drawable/ic_option_black"/>
 
 </menu>
